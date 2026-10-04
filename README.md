@@ -1,6 +1,6 @@
 # Doable
 
-A fast, offline to-do app you can install on your phone. Type tasks the way you'd say them — Doable picks out the date, time, tags, priority and repeat for you.
+A fast, private to-do app for Android and the web. Type tasks the way you'd say them — Doable picks out the date, time, tags, priority and repeat for you.
 
 **Live app:** https://maheshsurada9434.github.io/doable/
 
@@ -21,17 +21,30 @@ Priority: `!high` `!med` `!low` · Tags: `#anything` · Lists: `@ListName` · Re
 
 ## Features
 
+- **Reminders that reach you** – at the time of a task or up to a day before, plus an optional morning summary (Android app).
+- **Swipe gestures** – swipe right to complete, left to move a task to tomorrow.
 - **Today** – overdue and today's tasks with a progress ring for the day.
 - **Upcoming** – the next two weeks, grouped by day.
-- **Inbox and lists** – colour-coded lists for projects or areas of life; drag tasks into the order you want.
-- **Task details** – subtasks, notes, tags, priority, date, time and repeat.
+- **Inbox and lists** – colour-coded lists; drag tasks into the order you want.
+- **Task details** – quick date chips, subtasks, notes, tags, priority, reminder and repeat.
 - **Repeating tasks** – completing one schedules the next automatically.
 - **Focus timer** – a 25-minute focus session for any task.
 - **Search** – across titles, notes, subtasks and `#tags`.
-- **Undo** for completing, deleting and clearing.
-- **Works offline and installs** to your home screen (Android: *Install app*; iPhone: Share → *Add to Home Screen*).
-- **Private** – tasks are stored only in your browser. Export / import a JSON backup to move devices.
-- Dark mode, keyboard shortcuts (`n` new task, `/` search, `1`–`4` switch views, `Esc` close).
+- **Stats** – your streak and what you finished this week.
+- **Settings** – light/dark theme, six accent colours, default reminder, daily summary, vibration and sound.
+- **Undo** for completing, moving, deleting and clearing.
+- **Private** – no account, no ads, no tracking. Tasks stay on your device. Export / import a backup file.
+
+## Android app
+
+The Android app wraps this same web app with [Capacitor 8](https://capacitorjs.com) (targets Android 16, API 36) and adds real notifications, haptics, the back button and native sharing for backups.
+
+Every push to `main` runs the **Android build** workflow, which builds:
+
+- `doable-<version>-<build>-unsigned.aab` – the Play Store bundle (signed separately with the private upload key, which is never stored in this repo)
+- `doable-<version>-<build>-test.apk` – a test build that installs next to the Play version as **Doable (test)**
+
+The finished files are pushed to the [`builds`](../../tree/builds) branch. Store listing text and graphics are in [`store/`](store/). Privacy policy: https://maheshsurada9434.github.io/doable/privacy.html
 
 ## Run it
 
