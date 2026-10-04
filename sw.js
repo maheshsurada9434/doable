@@ -1,7 +1,7 @@
 // Doable service worker.
 // Pages are fetched network-first so new versions show up right away;
 // the cached copy is only used when you're offline.
-const VERSION = 'doable-v1';
+const VERSION = 'doable-v2';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', event => {

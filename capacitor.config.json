@@ -1,0 +1,21 @@
+{
+  "appId": "com.maheshsurada.doable",
+  "appName": "Doable",
+  "webDir": "www",
+  "backgroundColor": "#e9ece6",
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "css",
+      "style": "DEFAULT"
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_doable",
+      "iconColor": "#2B45E0"
+    }
+  }
+}

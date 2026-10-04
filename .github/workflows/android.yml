@@ -1,0 +1,53 @@
+name: Android build
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['README.md', 'store/**', 'docs/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build app
+        env:
+          VERSION_CODE: ${{ github.run_number }}
+        run: |
+          set -o pipefail
+          bash scripts/ci-build.sh 2>&1 | tee build.log
+
+      # The finished files are pushed to the "builds" branch so they can be
+      # downloaded with git. The bundle is unsigned: it is signed separately
+      # with the private upload key, which never goes into this public repo.
+      - name: Publish to builds branch
+        if: always()
+        run: |
+          mkdir -p /tmp/out
+          cp dist/* /tmp/out/ 2>/dev/null || true
+          tail -n 400 build.log > /tmp/out/build-log.txt 2>/dev/null || true
+          echo "${{ job.status }} run ${{ github.run_number }} commit ${{ github.sha }}" > /tmp/out/STATUS.txt
+          cd /tmp/out
+          git init -q -b builds
+          git add -A
+          git -c user.name="github-actions" -c user.email="github-actions@users.noreply.github.com" commit -qm "Build ${{ github.run_number }} (${{ job.status }})"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" builds
