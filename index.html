@@ -175,6 +175,27 @@ button.chip[aria-pressed="true"] { background: var(--accent); border-color: var(
 .pchip.p2 { background: color-mix(in srgb, var(--p2) 18%, transparent); color: color-mix(in srgb, var(--p2) 70%, var(--ink)); }
 .pchip.p1 { background: color-mix(in srgb, var(--p1) 14%, transparent); color: var(--p1); }
 
+.dump-btn { width: 40px; height: 40px; border-radius: 12px; border: none; background: transparent; color: var(--muted); display: grid; place-items: center; flex-shrink: 0; }
+.dump-btn:hover, .dump-btn:active { background: var(--sunk); color: var(--ink); }
+.dump-btn svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.share-day { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px 0 12px; border-radius: 999px; border: none; background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 14px; margin: -8px 0 20px; }
+.share-day svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+dialog.bsheet { border: none; padding: 0; margin: auto auto 0; width: 100%; max-width: 560px; max-height: calc(100vh - var(--sa-top) - 24px); border-radius: 22px 22px 0 0;
+  background: var(--surface); color: var(--ink); box-shadow: 0 -10px 40px -10px rgba(0,0,0,.4); }
+dialog.bsheet[open] { animation: up .26s cubic-bezier(.2,.8,.2,1); }
+@keyframes up { from { transform: translateY(40px); opacity: .4; } }
+dialog.bsheet::backdrop { background: rgba(10,12,12,.42); }
+.bs-in { padding: 18px calc(18px + var(--sa-right)) calc(20px + var(--sa-bottom)) calc(18px + var(--sa-left)); display: flex; flex-direction: column; gap: 12px; }
+.bs-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.bs-head h2 { margin: 0; font-size: 22px; letter-spacing: -0.02em; }
+.bs-in p { margin: 0; color: var(--muted); font-size: 14px; }
+.dump-area { width: 100%; min-height: 200px; border-radius: var(--r-md); border: 1px solid var(--line); background: var(--bg); padding: 12px 14px; font-size: 16px; line-height: 1.6; resize: vertical; outline: none; }
+.dump-area:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.dump-count { font-size: 13.5px; color: var(--muted); min-height: 20px; }
+.wrap-img { width: 100%; max-height: 52vh; object-fit: contain; border-radius: 14px; background: var(--bg); }
+.check-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; }
+@media (min-width: 900px) { dialog.bsheet { margin: auto; border-radius: 22px; } }
+
 /* ---------- tab bar ---------- */
 .tabbar { position: fixed; z-index: 21; left: 0; right: 0; bottom: 0; padding: 6px calc(12px + var(--sa-right)) max(10px, var(--sa-bottom)) calc(12px + var(--sa-left));
   background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -368,6 +389,7 @@ dialog.ios ol { padding-left: 20px; line-height: 1.7; margin: 12px 0 18px; }
     <div class="row">
       <label class="sr" for="quick">New task</label>
       <input id="quick" enterkeyhint="done" autocapitalize="sentences" placeholder="Add a task…">
+      <button class="dump-btn" type="button" data-act="dump" aria-label="Brain dump: add many tasks at once" title="Brain dump"><svg viewBox="0 0 24 24"><path d="M4 6h10M4 12h10M4 18h6M18 14v8M14 18h8"/></svg></button>
       <button class="add-btn" id="addBtn" type="submit" aria-label="Add task" disabled><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
     </div>
     <div class="preview" id="preview" aria-live="polite"></div>
@@ -381,6 +403,19 @@ dialog.ios ol { padding-left: 20px; line-height: 1.7; margin: 12px 0 18px; }
 <div class="onboard" id="onboard" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
+<dialog class="bsheet" id="dumpSheet" aria-labelledby="dumpT"><div class="bs-in">
+  <div class="bs-head"><h2 id="dumpT">Brain dump</h2><button class="icon-btn" data-act="dump-close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <p>Get everything out of your head. One task per line. Dates, times, #tags, !priority and @lists work on every line.</p>
+  <textarea class="dump-area" id="dumpText" placeholder="Reply to Riya's email&#10;Laundry tonight&#10;Gym tomorrow 7am #health&#10;Submit assignment friday !high&#10;Call dad sunday 6pm"></textarea>
+  <div class="dump-count" id="dumpCount" aria-live="polite"></div>
+  <button class="btn block" data-act="dump-add" id="dumpAdd" disabled>Add tasks</button>
+</div></dialog>
+<dialog class="bsheet" id="wrapSheet" aria-labelledby="wrapT"><div class="bs-in">
+  <div class="bs-head"><h2 id="wrapT">Share your day</h2><button class="icon-btn" data-act="wrap-close" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <img class="wrap-img" id="wrapImg" alt="Your day in Doable, as a story-sized image">
+  <label class="check-row"><span>Show task names</span><span class="switch"><input type="checkbox" id="wrapNames" checked><i></i></span></label>
+  <button class="btn block" data-act="wrap-share"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share image</button>
+</div></dialog>
 <dialog class="ios" id="iosSheet" aria-labelledby="iosT">
   <h2 id="iosT">Add Doable to your Home Screen</h2>
   <div style="color:var(--muted)">It opens full screen like an app and works offline.</div>
@@ -391,8 +426,16 @@ dialog.ios ol { padding-left: 20px; line-height: 1.7; margin: 12px 0 18px; }
 <script>
 'use strict';
 const APP_VERSION = '1.0.0';
-const PRIVACY_URL = 'https://maheshsurada9434.github.io/doable/privacy.html';
-const FEEDBACK_URL = 'https://github.com/maheshsurada9434/doable/issues';
+// Forks: the Android build rewrites REPO to the fork's own "owner/name".
+const REPO = (() => {
+  const m = location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
+  const seg = location.pathname.split('/').filter(Boolean)[0];
+  return m && seg ? `${m[1]}/${seg}` : 'maheshsurada9434/doable';
+})();
+const [REPO_OWNER, REPO_NAME] = REPO.split('/');
+const REPO_URL = `https://github.com/${REPO}`;
+const PRIVACY_URL = `https://${REPO_OWNER}.github.io/${REPO_NAME}/privacy.html`;
+const FEEDBACK_URL = `${REPO_URL}/issues`;
 
 /* =========================================================
    Platform
@@ -886,6 +929,7 @@ function viewToday() {
         <span><span><b class="num">${doneToday.length}/${total}</b>done</span></span>
       </div>
     </header>
+    ${doneToday.length ? `<button class="share-day" data-act="share-day"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share my day</button>` : ''}
     ${notifBar()}${samplesBar()}
     ${group('Overdue', overdue, { late: true })}
     ${group('Today', todays, { showDate: false, drag: true })}
@@ -968,6 +1012,7 @@ function viewDone() {
       <div class="stat"><b class="num">${st.weekCount}</b><span>done in 7 days</span></div>
       <div class="stat"><b class="num">${d.length}</b><span>all time</span><div class="week" aria-label="Days with completed tasks this week">${st.week.map(x => `<i class="${x ? 'on' : ''}"></i>`).join('')}</div></div>
     </div>`;
+  if (d.length) html += `<button class="share-day" data-act="share-day" style="margin-top:-6px"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share my day</button>`;
   if (!d.length) return html + '<div class="empty"><b>Nothing completed yet</b>Tap the circle next to a task, or swipe it right.</div>';
   const groups = {};
   d.forEach(t => { const k = t.doneAt ? toKey(new Date(t.doneAt)) : 'earlier'; (groups[k] = groups[k] || []).push(t); });
@@ -1034,6 +1079,7 @@ function viewSettings() {
     <section class="group"><div class="group-head"><h2>About</h2></div><div class="panel">
       <div class="setting"><span class="s-label"><b>Doable ${APP_VERSION}</b><span>Your tasks stay on this device. No account, no tracking.</span></span></div>
       <div class="setting"><span class="s-label"><b>Privacy policy</b></span><a href="${PRIVACY_URL}" target="_blank" rel="noopener">Open</a></div>
+      <div class="setting"><span class="s-label"><b>Free and open source</b><span>Fork Doable on GitHub and make it yours</span></span><a href="${REPO_URL}" target="_blank" rel="noopener">GitHub</a></div>
       <div class="setting"><span class="s-label"><b>Send feedback</b><span>Report a problem or suggest an idea</span></span><a href="${FEEDBACK_URL}" target="_blank" rel="noopener">Open</a></div>
     </div></section>`;
 }
@@ -1389,6 +1435,12 @@ document.addEventListener('click', e => {
   else if (act === 'export') exportData();
   else if (act === 'import') document.getElementById('importFile').click();
   else if (act === 'install') install();
+  else if (act === 'dump') openDump('');
+  else if (act === 'dump-close') document.getElementById('dumpSheet').close();
+  else if (act === 'dump-add') addDump();
+  else if (act === 'share-day') openWrap();
+  else if (act === 'wrap-close') document.getElementById('wrapSheet').close();
+  else if (act === 'wrap-share') shareWrap();
 });
 
 document.addEventListener('keydown', e => {
@@ -1525,6 +1577,139 @@ if (!native && 'serviceWorker' in navigator && location.protocol !== 'file:') wi
 let lastDay = toKey(today());
 setInterval(() => { if (toKey(today()) !== lastDay) { lastDay = toKey(today()); if (!ui.open) render(); scheduleSync(); } }, 60000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden && toKey(today()) !== lastDay) { lastDay = toKey(today()); render(); } });
+
+/* =========================================================
+   Brain dump: many tasks at once
+   ========================================================= */
+const dumpLines = () => document.getElementById('dumpText').value.split(/\r?\n/).map(l => l.replace(/^\s*(?:[-*•]|\d+[.)]|\[ ?\])\s*/, '').trim()).filter(Boolean);
+function openDump(text) {
+  const d = document.getElementById('dumpSheet');
+  document.getElementById('dumpText').value = text; updateDump();
+  d.showModal(); setTimeout(() => document.getElementById('dumpText').focus(), 50);
+}
+function updateDump() {
+  const lines = dumpLines(); const n = lines.length;
+  const dated = lines.filter(l => parse(l).due).length;
+  document.getElementById('dumpCount').textContent = n ? `${plural(n, 'task')}${dated ? `, ${dated} with a date` : ''}` : '';
+  const b = document.getElementById('dumpAdd'); b.disabled = !n; b.textContent = n ? `Add ${plural(n, 'task')}` : 'Add tasks';
+}
+document.getElementById('dumpText').addEventListener('input', updateDump);
+function addDump() {
+  const lines = dumpLines(); if (!lines.length) return;
+  const ids = [];
+  let order = Math.min(0, ...state.tasks.map(t => t.order)) - 1000 * lines.length;
+  for (const line of lines) {
+    const p = parse(line);
+    const listId = p.listId || (ui.view === 'list' ? ui.listId : null);
+    const due = p.due || (ui.view === 'today' && !p.listId ? toKey(today()) : null);
+    const t = mkTask(p.title, { listId, due, time: p.time, remind: p.time ? S().defaultReminder : null, priority: p.priority, tags: p.tags, repeat: p.repeat, order: order += 1000 });
+    state.tasks.push(t); ids.push(t.id);
+  }
+  document.getElementById('dumpSheet').close();
+  save(); render(); buzz('success');
+  toast(`${plural(ids.length, 'task')} added`, () => { state.tasks = state.tasks.filter(x => !ids.includes(x.id)); save(); render(); });
+}
+quick.addEventListener('paste', e => {
+  const text = (e.clipboardData || window.clipboardData).getData('text');
+  if (text && /\n/.test(text.trim())) { e.preventDefault(); openDump(text.trim()); }
+});
+
+/* =========================================================
+   Share my day: a story-sized image
+   ========================================================= */
+let wrapBlob = null;
+function accentHex() { return (ACCENTS[S().accent] || ACCENTS.cobalt)[0]; }
+function roundRect(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+function fitText(c, text, maxW) { if (c.measureText(text).width <= maxW) return text; let t = text; while (t.length > 1 && c.measureText(t + '…').width > maxW) t = t.slice(0, -1); return t.trimEnd() + '…'; }
+async function drawWrap(showNames) {
+  try { await document.fonts.ready; } catch (e) {}
+  const W = 1080, H = 1920, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const c = cv.getContext('2d');
+  const F = getComputedStyle(document.documentElement).getPropertyValue('--font');
+  const acc = S().accent === 'ink' ? '#15181b' : accentHex();
+  const tk = toKey(today());
+  const done = state.tasks.filter(x => x.done && x.doneAt && toKey(new Date(x.doneAt)) === tk).sort((a, b) => a.doneAt - b.doneAt);
+  const left = open().filter(x => x.due && x.due <= tk).length;
+  const st = streakInfo();
+  // background
+  const g = c.createLinearGradient(0, 0, W, H); g.addColorStop(0, acc); g.addColorStop(1, '#0d0f14');
+  c.fillStyle = g; c.fillRect(0, 0, W, H);
+  c.globalAlpha = 0.07; c.fillStyle = '#fff';
+  for (let i = 0; i < 9; i++) { c.beginPath(); c.arc(W + 60, -40, 260 + i * 120, 0, Math.PI * 2); c.lineWidth = 2; c.strokeStyle = '#fff'; c.stroke(); }
+  c.globalAlpha = 1;
+  // brand
+  roundRect(c, 90, 120, 64, 64, 18); c.fillStyle = '#fff'; c.fill();
+  c.strokeStyle = acc; c.lineWidth = 9; c.lineCap = 'round'; c.lineJoin = 'round';
+  c.beginPath(); c.moveTo(107, 153); c.lineTo(119, 166); c.lineTo(139, 140); c.stroke();
+  c.fillStyle = '#fff'; c.font = `700 44px ${F}`; c.textBaseline = 'middle'; c.fillText('Doable', 176, 154);
+  c.textAlign = 'right'; c.font = `500 36px ${F}`; c.globalAlpha = .8;
+  c.fillText(today().toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }), W - 90, 154);
+  c.globalAlpha = 1; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+  // big number
+  c.font = `700 400px ${F}`; c.fillText(String(done.length), 76, 640);
+  c.font = `700 84px ${F}`; c.fillText(done.length === 1 ? 'thing done' : 'things done', 90, 760);
+  c.fillText('today', 90, 856);
+  // stats chips
+  const chips = [`${st.streak}-day streak`, left ? `${left} still to go` : 'nothing left today'];
+  let x = 90; c.font = `600 38px ${F}`;
+  for (const ch of chips) {
+    const w = c.measureText(ch).width + 56;
+    roundRect(c, x, 920, w, 76, 38); c.fillStyle = 'rgba(255,255,255,.16)'; c.fill();
+    c.fillStyle = '#fff'; c.fillText(ch, x + 28, 972); x += w + 18;
+  }
+  // list
+  let y = 1100;
+  const items = showNames ? done.slice(-6) : [];
+  if (showNames) {
+    c.font = `500 44px ${F}`;
+    for (const t of items) {
+      c.beginPath(); c.arc(118, y - 15, 26, 0, Math.PI * 2); c.fillStyle = '#fff'; c.fill();
+      c.strokeStyle = acc; c.lineWidth = 7; c.beginPath(); c.moveTo(105, y - 15); c.lineTo(114, y - 5); c.lineTo(131, y - 26); c.stroke();
+      c.fillStyle = '#fff'; c.fillText(fitText(c, t.title, W - 260), 170, y); y += 104;
+    }
+    if (done.length > items.length) { c.globalAlpha = .7; c.fillText(`+ ${done.length - items.length} more`, 170, y); c.globalAlpha = 1; }
+  } else {
+    // week dots instead of names
+    c.font = `600 40px ${F}`; c.fillText('This week', 90, y);
+    st.week.forEach((on, i) => { roundRect(c, 90 + i * 128, y + 40, 108, 108, 30); c.fillStyle = on ? '#fff' : 'rgba(255,255,255,.16)'; c.fill(); });
+  }
+  // footer
+  c.globalAlpha = .85; c.font = `500 34px ${F}`; c.fillStyle = '#fff';
+  c.fillText('Made with Doable, a free & open-source to-do app', 90, H - 170);
+  c.globalAlpha = 1; c.font = `700 36px ${F}`;
+  c.fillText(`github.com/${REPO}`, 90, H - 118);
+  return new Promise(r => cv.toBlob(r, 'image/png'));
+}
+async function openWrap() {
+  const d = document.getElementById('wrapSheet');
+  await renderWrap();
+  d.showModal();
+}
+async function renderWrap() {
+  wrapBlob = await drawWrap(document.getElementById('wrapNames').checked);
+  const img = document.getElementById('wrapImg');
+  if (img.src.startsWith('blob:')) URL.revokeObjectURL(img.src);
+  img.src = URL.createObjectURL(wrapBlob);
+}
+document.getElementById('wrapNames').addEventListener('change', renderWrap);
+async function shareWrap() {
+  if (!wrapBlob) return;
+  const name = `doable-${toKey(today())}.png`;
+  const text = `My day on Doable. Get it free: ${REPO_URL}`;
+  try {
+    if (native && P.Filesystem && P.Share) {
+      const b64 = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(String(fr.result).split(',')[1]); fr.readAsDataURL(wrapBlob); });
+      const f = await P.Filesystem.writeFile({ path: name, data: b64, directory: 'CACHE' });
+      await P.Share.share({ title: 'My day on Doable', text, files: [f.uri], dialogTitle: 'Share your day' });
+      return;
+    }
+    const file = new File([wrapBlob], name, { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'My day on Doable', text }); return; }
+  } catch (e) { if (/abort|cancel/i.test(String(e && (e.name + e.message)))) return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(wrapBlob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('Image saved');
+}
 
 applyTheme();
 render();

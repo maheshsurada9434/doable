@@ -1,9 +1,12 @@
 name: Android build
 
+# Builds the Android app on every push to main.
+# Forked this repo? Open the Actions tab and enable workflows. That's it:
+# each push gives you a downloadable APK under Releases.
 on:
   push:
     branches: [main]
-    paths-ignore: ['README.md', 'store/**', 'docs/**']
+    paths-ignore: ['**.md', 'store/**', 'docs/**', '.github/ISSUE_TEMPLATE/**']
   workflow_dispatch:
 
 permissions:
@@ -30,15 +33,38 @@ jobs:
           java-version: 21
 
       - name: Build app
+        id: build
         env:
           VERSION_CODE: ${{ github.run_number }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           set -o pipefail
           bash scripts/ci-build.sh 2>&1 | tee build.log
 
-      # The finished files are pushed to the "builds" branch so they can be
-      # downloaded with git. The bundle is unsigned: it is signed separately
-      # with the private upload key, which never goes into this public repo.
+      - name: Publish release with the APK
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="v$VERSION-build${{ github.run_number }}"
+          if [ "${{ steps.build.outputs.signed }}" = "1" ]; then
+            NOTE="Signed release build. Download **doable.apk** on your Android phone to install. **doable.aab** is ready for Google Play."
+            FILES="dist/doable.apk dist/doable.aab"
+          else
+            NOTE="Test build (installs as \"Doable (test)\"). Download **doable.apk** on your Android phone to install. Add signing secrets to get a signed release build. See CUSTOMIZE.md."
+            FILES="dist/doable.apk"
+          fi
+          gh release create "$TAG" $FILES dist/build-info.txt --title "Doable $VERSION (build ${{ github.run_number }})" --notes "$NOTE" --target "${{ github.sha }}" --latest
+          # Keep only the 5 newest builds
+          gh release list --limit 100 --json tagName,createdAt -q 'sort_by(.createdAt) | reverse | .[5:] | .[].tagName' | while read -r t; do
+            [ -n "$t" ] && gh release delete "$t" --yes --cleanup-tag || true
+          done
+
+      # Also push the files to the "builds" branch (handy for scripts that fetch with git).
       - name: Publish to builds branch
         if: always()
         run: |
