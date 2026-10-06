@@ -1,0 +1,15 @@
+app: Doable (com.maheshsurada.doable)
+version: 1.0.0
+versionCode: 3
+signed: no
+    minSdkVersion = 24
+    compileSdkVersion = 36
+    targetSdkVersion = 36
+capacitor: 8.5.2
+plugins:
+  [info] Found 5 Capacitor plugins for android:
+         @capacitor/app@8.1.2
+         @capacitor/filesystem@8.1.4
+         @capacitor/haptics@8.0.2
+         @capacitor/local-notifications@8.3.1
+         @capacitor/share@8.0.3
