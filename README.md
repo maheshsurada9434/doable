@@ -1,51 +1,105 @@
-# Doable
+<p align="center">
+  <img src="docs/banner.png" alt="Doable: the to-do app you type like you talk" width="100%">
+</p>
 
-A fast, private to-do app for Android and the web. Type tasks the way you'd say them — Doable picks out the date, time, tags, priority and repeat for you.
+<p align="center">
+  <a href="https://github.com/maheshsurada9434/doable/releases/latest/download/doable.apk"><b>📱 Download the APK</b></a> ·
+  <a href="https://maheshsurada9434.github.io/doable/"><b>🌐 Try it in your browser</b></a> ·
+  <a href="#-make-it-yours-in-3-minutes"><b>🍴 Fork &amp; make it yours</b></a>
+</p>
 
-**Live app:** https://maheshsurada9434.github.io/doable/
+<p align="center">
+  <a href="https://github.com/maheshsurada9434/doable/actions/workflows/android.yml"><img alt="Android build" src="https://github.com/maheshsurada9434/doable/actions/workflows/android.yml/badge.svg"></a>
+  <a href="https://github.com/maheshsurada9434/doable/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/maheshsurada9434/doable?label=apk&color=2b45e0"></a>
+  <img alt="Android 16 ready" src="https://img.shields.io/badge/targets-Android%2016%20(API%2036)-3ddc84">
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-blue"></a>
+  <a href="CONTRIBUTING.md"><img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-ff69b4"></a>
+</p>
 
-## Type it like you'd say it
+**Doable is a to-do app that understands plain English.** Type `gym tomorrow 7am #health every weekday` and it fills in the date, time, tag and repeat for you. It reminds you on time and works offline. No account, no ads, no tracking.
 
-| You type | Doable understands |
+It's also a **template**. Fork it, enable one GitHub Action, and you get **your own Android app** built on every push, with a downloadable APK and a Play Store–ready bundle. No Android Studio, no laptop setup. You can do it from your phone.
+
+<p align="center">
+  <img src="store/screenshot-1.png" width="24%" alt="Today view">
+  <img src="store/screenshot-2.png" width="24%" alt="Quick add in plain English">
+  <img src="store/screenshot-4.png" width="24%" alt="Swipe to complete">
+  <img src="store/screenshot-5.png" width="24%" alt="Dark mode">
+</p>
+
+## ✨ What it does
+
+| | |
 | --- | --- |
-| `Pay rent tomorrow 9am #home !high every month` | Tomorrow 9:00, tag *home*, high priority, repeats monthly |
-| `Call mom on friday at 6pm` | Next Friday, 6:00 pm |
-| `Gym 7am every weekday #health` | Weekdays at 7:00, tag *health* |
-| `Dentist 15 oct 10:30` | 15 October, 10:30 |
-| `Taxes 31/12` | 31 December (day/month) |
-| `Report next week !med @work` | Next Monday, medium priority, in the *Work* list |
-| `Buy milk tonight` | Today 8:00 pm |
-| `Meeting in 3 days` | Three days from today |
+| ⌨️ **Type it like you'd say it** | `today` `tomorrow` `next friday` `15 oct` `31/12` `in 3 days` · `9am` `6:30pm` `tonight` · `every monday` `daily` `monthly` · `#tags` `!high` `@List` |
+| 🧠 **Brain dump** | Paste a whole list (from notes, WhatsApp, anywhere) and every line becomes a task, dates included |
+| 🔔 **Reminders that actually arrive** | Real Android notifications at the time you set, or up to a day before. Optional morning summary |
+| 👆 **Swipe** | Right to finish. Left to push it to tomorrow. Undo for everything |
+| 📸 **Share my day** | A story-sized image of what you got done, ready for Instagram or WhatsApp |
+| 🔥 **Streaks** | Your streak and what you finished this week |
+| ⏱️ **Focus timer** | 25 minutes, one task, nothing else |
+| 🗂️ **Lists, subtasks, notes, priorities** | Colour-coded lists, drag to reorder, search across everything |
+| 🌗 **Make it yours** | Light and dark themes, six accent colours, vibration and sounds you can turn off |
+| 🔒 **Private by design** | Tasks never leave your phone. Export a backup file whenever you like |
 
-Priority: `!high` `!med` `!low` · Tags: `#anything` · Lists: `@ListName` · Repeats: `every day`, `every weekday`, `every monday`, `weekly`, `monthly`, `yearly`.
+## 🍴 Make it yours in 3 minutes
 
-## Features
+You can do all of this from the GitHub app or a phone browser.
 
-- **Reminders that reach you** – at the time of a task or up to a day before, plus an optional morning summary (Android app).
-- **Swipe gestures** – swipe right to complete, left to move a task to tomorrow.
-- **Today** – overdue and today's tasks with a progress ring for the day.
-- **Upcoming** – the next two weeks, grouped by day.
-- **Inbox and lists** – colour-coded lists; drag tasks into the order you want.
-- **Task details** – quick date chips, subtasks, notes, tags, priority, reminder and repeat.
-- **Repeating tasks** – completing one schedules the next automatically.
-- **Focus timer** – a 25-minute focus session for any task.
-- **Search** – across titles, notes, subtasks and `#tags`.
-- **Stats** – your streak and what you finished this week.
-- **Settings** – light/dark theme, six accent colours, default reminder, daily summary, vibration and sound.
-- **Undo** for completing, moving, deleting and clearing.
-- **Private** – no account, no ads, no tracking. Tasks stay on your device. Export / import a backup file.
+1. **Fork** this repo (button at the top right).
+2. In your fork, open **Actions** and tap **I understand my workflows, go ahead and enable them**.
+3. Push any change, or open **Actions → Android build → Run workflow**.
 
-## Android app
+About 8 minutes later, **Releases** in your fork has `doable.apk`. Open it on your phone to install. Your build gets its own app ID (`io.github.<you>.<repo>`), so it never clashes with anyone else's.
 
-The Android app wraps this same web app with [Capacitor 8](https://capacitorjs.com) (targets Android 16, API 36) and adds real notifications, haptics, the back button and native sharing for backups.
+**Want the web version too?** Settings → Pages → Branch: `main` → Save. It goes live at `https://<you>.github.io/<repo>/`.
 
-Every push to `main` runs the **Android build** workflow, which builds:
+Then change things:
 
-- `doable-<version>-<build>-unsigned.aab` – the Play Store bundle (signed separately with the private upload key, which is never stored in this repo)
-- `doable-<version>-<build>-test.apk` – a test build that installs next to the Play version as **Doable (test)**
+| To change | Edit |
+| --- | --- |
+| App name, app ID, icon background, splash colours | [`app.config.json`](app.config.json) |
+| App icon and splash screen | Replace the images in [`assets/`](assets/) |
+| Everything you see and do | [`index.html`](index.html) (one file: HTML, CSS and JS, no framework, no build step) |
+| Version shown in the Play Store | `version` in [`package.json`](package.json) |
 
-The finished files are pushed to the [`builds`](../../tree/builds) branch. Store listing text and graphics are in [`store/`](store/). Privacy policy: https://maheshsurada9434.github.io/doable/privacy.html
+Full guide, including signing your own release build for Google Play: **[CUSTOMIZE.md](CUSTOMIZE.md)**.
 
-## Run it
+## 🧱 How it's built
 
-No build step and no dependencies: open `index.html`, or host the folder on any static host such as GitHub Pages.
+- **One file**: [`index.html`](index.html) is the whole app. Vanilla JS, no framework, no bundler. Open it in a browser and it runs.
+- **Android**: [Capacitor 8](https://capacitorjs.com) wraps the same file and adds notifications, haptics, sharing and the back button. Targets Android 16 (API 36), as Google Play requires.
+- **CI**: [`.github/workflows/android.yml`](.github/workflows/android.yml) generates the Android project, icons and splash screens, builds the APK and the `.aab` bundle, and publishes a GitHub Release.
+- **Storage**: `localStorage` on the device. Nothing is sent anywhere.
+
+```
+index.html            the app
+app.config.json       name, app ID, colours for your build
+assets/               icon + splash sources
+android-res/          notification icon
+scripts/ci-build.sh   the Android build
+store/                Play Store screenshots, graphics and listing text
+privacy.html          privacy policy (needed for Google Play)
+```
+
+## 🗺️ Ideas and good first issues
+
+Want to help? Pick one. Each is a self-contained change in `index.html`:
+
+- Calendar month view
+- Hindi / Hinglish date words (`kal`, `parso`, `somvar`)
+- Home screen widget (Android)
+- Task templates ("morning routine", "packing list")
+- Pomodoro breaks and custom focus lengths
+- More share-card styles
+- Import from Google Tasks / Todoist export
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Small PRs are very welcome.
+
+## ⭐ Like it?
+
+Star the repo so more people find it, and share your fork. I'd love to see what you build.
+
+## License
+
+[MIT](LICENSE). Use it, fork it, ship your own version. A link back is appreciated, not required.

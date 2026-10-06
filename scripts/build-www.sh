@@ -25,5 +25,9 @@ if curl -fsSL -A "$UA" "$CSS_URL" -o /tmp/font.css; then
 else
   echo "WARNING: could not download the font; the app will use the system font offline"
 fi
+# Point "Send feedback", privacy policy and share links at this repo (forks get their own).
+if [ -n "${GITHUB_REPOSITORY:-}" ]; then
+  sed -i "s#: 'maheshsurada9434/doable';#: '$GITHUB_REPOSITORY';#" www/index.html
+fi
 # The Android app does not need the web install manifest link.
 sed -i '/rel="manifest"/d' www/index.html

@@ -1,0 +1,21 @@
+name: Feature idea
+description: Suggest something that would make Doable better
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do?
+      description: Describe what you're trying to get done, not just the button you want.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: How could Doable help?
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Want to build it?
+      options:
+        - label: I'd like to open a PR for this
