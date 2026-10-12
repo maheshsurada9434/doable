@@ -9,7 +9,7 @@ cp index.html manifest.webmanifest privacy.html www/
 cp -r icons www/
 
 UA="Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Mobile Safari/537.36"
-CSS_URL="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap"
+CSS_URL="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
 if curl -fsSL -A "$UA" "$CSS_URL" -o /tmp/font.css; then
   i=0
   cp /tmp/font.css www/fonts/fonts.css
