@@ -21,7 +21,7 @@ NEVER MISS A THING
 • Repeating tasks schedule the next one automatically when you finish
 
 PLAN YOUR DAY
-• Today shows what’s due and what’s overdue, with a progress ring
+• Today shows what’s due and what’s overdue, with a highlighter that fills in as you finish tasks
 • Upcoming groups the next two weeks by day
 • Swipe right to complete, swipe left to move a task to tomorrow
 • Drag to put tasks in the order you want
