@@ -5,3 +5,4 @@ dist/
 *.jks
 *.keystore
 !ci/debug.keystore
+__pycache__/
