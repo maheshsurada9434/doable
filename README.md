@@ -39,7 +39,7 @@ It's also a **template**. Fork it, enable one GitHub Action, and you get **your 
 | 🔥 **Streaks** | Your streak and what you finished this week |
 | ⏱️ **Focus timer** | 25 minutes, one task, nothing else |
 | 🗂️ **Lists, subtasks, notes, priorities** | Colour-coded lists, drag to reorder, search across everything |
-| 🌗 **Make it yours** | Light and dark themes, six accent colours, vibration and sounds you can turn off |
+| 🌗 **Make it yours** | Light and dark themes, eight accent colours, vibration and sounds you can turn off |
 | 🔒 **Private by design** | Tasks never leave your phone. Export a backup file whenever you like |
 
 ## 🍴 Make it yours in 3 minutes

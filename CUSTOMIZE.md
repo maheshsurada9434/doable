@@ -45,7 +45,7 @@ To change the icon, replace the PNGs in [`assets/`](assets/), keeping the same n
 
 The notification icon is [`android-res/drawable-*/ic_stat_doable.png`](android-res/). It must be white on transparent.
 
-Colours and text inside the app are in [`index.html`](index.html). Search for `--accent-l` to change the default blue.
+Colours and text inside the app are in [`index.html`](index.html). Search for `--accent-l` to change the default ink blue.
 
 ## 3. Sign a release build (for Google Play)
 
